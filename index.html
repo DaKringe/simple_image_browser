@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <body>
+        <form action="#" method="post">
+            <input type="text" name="username" id="username" placeholder="username" autocomplete="off">
+            <input type="password" name="password" id="password" placeholder="password">
+            <input type="submit" value="login">
+        </form>
+        <div id="container"></div>
+        <script>
+            let form = document.forms[0]
+
+            function onFormSubmit(e) {
+                e.preventDefault()
+                let body = {password: form.password.value, username: form.username.value}
+                let req = new XMLHttpRequest()
+                req.open("POST", "/")
+                req.setRequestHeader("Content-Type", "application/json")
+                
+                req.onload = () => {
+                    console.log(req.response)
+                    let success = req.response == "OK"
+                    if (!success) return
+
+                    getManifest((res)=>{window.manifest = res})
+                    let manifest = window.manifest.split("\n")
+                    window.manifest = null
+
+                    const container = document.getElementById("container")
+                    for (const el of container.childNodes) {
+                        el.remove()
+                    }
+                    for (const item of manifest) {
+                        let el = document.createElement("img")
+                        el.src = "/files" + item
+
+                        el.style = "width: 25vw; border: solid 1px black"
+                        el.maximized = false
+                        el.onclick = e => {
+                            el.maximized = !el.maximized
+                            el.style.width = el.maximized ? "auto" : "25vh"
+                        }
+
+                        container.appendChild(el)
+                    }
+                }
+
+                req.send(JSON.stringify(body))
+            }
+
+            function updatePage() {
+                
+            }
+
+            function getManifest(callback) {
+                let req = new XMLHttpRequest()
+                req.open("GET", "/manifest")
+
+                req.onload = () => {
+                    callback(req.responseText)
+                }
+
+                req.send()
+            }
+
+            form.onsubmit = onFormSubmit
+        </script>
+    </body>
+</html>

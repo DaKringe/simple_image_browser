@@ -6,9 +6,9 @@ const fs = require("fs")
 const path = require("path")
 
 const ROOT = __dirname
-const USER = "kringe"
-const PASS = "rizzler"
-const SECRET = "swiggleswaggle_riggleraggle_gyat555_111"
+const USER = "username"
+const PASS = "password"
+const SECRET = "secret_cookie"
 
 const PAGE404 = ROOT + "/404.html"
 

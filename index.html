@@ -4,8 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+                #container {
+                    display: flexbox
+                }
+                .image_display {
+                    border: solid 1px;
+                    width: 5em;
+                    height: 5em;
+                }
+                #big_image {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    height: 10em;
+                    width: auto;
+                }
+            </style>
 </head>
     <body>
+        <img src="" alt="" id="big_image">
         <form action="#" method="post">
             <input type="text" name="username" id="username" placeholder="username" autocomplete="off">
             <input type="password" name="password" id="password" placeholder="password">
@@ -13,7 +32,53 @@
         </form>
         <div id="container"></div>
         <script>
+
+            Number.prototype.mod = function (n) {
+            "use strict";
+            return ((this % n) + n) % n;
+            };
+
             let form = document.forms[0]
+
+            let image_file_types = ["jpg", "png", "jpeg"]
+
+            let loaded_images = []
+
+            let big_image = document.getElementById("big_image")
+
+            function updateImg(index) {
+                big_image.src = loaded_images[index.mod(loaded_images.length)]
+            }
+
+            document.onkeydown = e => {
+                cursrc = big_image.src
+
+                if (cursrc == document.URL) return
+
+                curidx = loaded_images.indexOf(cursrc)
+
+                switch (e.key.toLowerCase()) {
+                    case "escape":
+                        big_image.src = ""
+                        break
+                    case "arrowleft":
+                        curidx -= 1
+                        updateImg(curidx)
+                        break
+                    case "arrowright":
+                        curidx += 1
+                        updateImg(curidx)
+                        break
+                    case "a":
+                        curidx -= 1
+                        updateImg(curidx)
+                        break
+                    case "d":
+                        curidx += 1
+                        updateImg(curidx)
+                        break
+                }
+            }
 
             function onFormSubmit(e) {
                 e.preventDefault()
@@ -36,14 +101,24 @@
                         el.remove()
                     }
                     for (const item of manifest) {
+                        let ext = item.split(".")[1].trim()
+                        console.log(image_file_types.includes(ext), ext, image_file_types)
+                        if (!image_file_types.includes(ext)) continue
                         let el = document.createElement("img")
+                        el.classList.add("image_display")
                         el.src = "/files" + item
+                        el.alt = `No image: ${item}`
 
-                        el.style = "width: 25vw; border: solid 1px black"
+                        loaded_images.push(el.src)
+
+                        // el.onerror = (e) => {
+                        //     el = document.createElement("a")
+                        //     el.innerText = item
+                        // }
+
                         el.maximized = false
                         el.onclick = e => {
-                            el.maximized = !el.maximized
-                            el.style.width = el.maximized ? "auto" : "25vh"
+                            big_image.src = el.src
                         }
 
                         container.appendChild(el)

@@ -102,6 +102,8 @@
             document.onkeydown = e => {
                 cursrc = big_image.src || big_video.src
 
+                console.log(big_image.src, big_video.src)
+
                 if (cursrc == document.URL) return
 
                 curidx = loaded_images.indexOf(cursrc)

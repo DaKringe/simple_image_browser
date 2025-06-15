@@ -50,7 +50,10 @@
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
-                    pointer-events: none;
+                }
+                #big_video:not([src]),
+                #big_video[src=""] {
+                    display: none;
                 }
             </style>
 </head>
@@ -91,10 +94,9 @@
                     big_image.src = ""
                     big_video.src = loaded
                     big_video.innerHTML = ""
+                    big_video.controls = true
                     source = document.createElement("source")
                     source.src = loaded
-                    source.style.pointerEvents = "all"
-                    source.controls = true
                     big_video.appendChild(source)
                 } else if (isImage) {
                     big_video.src = ""

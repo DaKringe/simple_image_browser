@@ -83,7 +83,7 @@
             function updateImg(index) {
                 loaded = loaded_images[index.mod(loaded_images.length)]
                 splt = loaded.split(".")
-                ext = splt[split.length - 1].trim()
+                ext = splt[splt.length - 1].trim()
                 isVideo = video_file_types.includes(ext)
                 isImage = image_file_types.includes(ext)
                 

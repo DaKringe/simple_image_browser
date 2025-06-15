@@ -89,10 +89,10 @@
                 
                 if (isVideo) {
                     big_video.src = ""
-                    big_image.src = el.src
+                    big_image.src = loaded.src
                 } else if (isImage) {
                     big_image.src = ""
-                    big_video.src = el.src
+                    big_video.src = loaded.src
                 } else {
                     console.log(loaded, ext, splt, " is neither video nor image ")
                     return

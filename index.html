@@ -12,6 +12,7 @@
                     border: solid 1px;
                     width: 5em;
                     height: 5em;
+                    object-fit: cover;
                 }
                 #big_image {
                     position: fixed;
@@ -24,6 +25,21 @@
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
+                    pointer-events: none;
+                }
+
+                #big_video {
+                    position: fixed;
+                    padding: 5em;
+                    max-width: 90vw;
+                    max-height: 90vh;
+                    width: 50%;
+                    height: 50%;
+                    object-fit: contain;
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    pointer-events: none;
                 }
             </style>
 </head>
@@ -35,6 +51,7 @@
         </form>
         <div id="container"></div>
         <img src="" alt="" id="big_image">
+        <video src="" id="big_video"></video>
         <script>
 
             Number.prototype.mod = function (n) {
@@ -45,6 +62,7 @@
             let form = document.forms[0]
 
             let image_file_types = ["jpg", "png", "jpeg"]
+            let video_file_types = ["mp4"]
 
             let loaded_images = []
 
@@ -104,22 +122,35 @@
 
                     for (const item of manifest) {
                         let ext = item.split(".")[1].trim()
-                        if (!image_file_types.includes(ext)) continue
-                        let el = document.createElement("img")
-                        el.classList.add("image_display")
-                        el.src = "/files" + item
-                        el.alt = `No image: ${item}`
+                        if (image_file_types.includes(ext)) {
+                            let el = document.createElement("img")
+                            el.classList.add("image_display")
+                            el.src = "/files" + item
+                            el.alt = `No image: ${item}`
 
-                        loaded_images.push(el.src)
+                            el.isVideo = false
+    
+                            loaded_images.push(el.src)
+                        } else if (video_file_types.includes(ext)) {
+                            let el = document.createElement("video")
+                            el.classList.add("video_display")
+                            el.src = "/files" + item
+                            el.alt = `No video: ${item}`
 
-                        // el.onerror = (e) => {
-                        //     el = document.createElement("a")
-                        //     el.innerText = item
-                        // }
+                            el.isVideo = true
+    
+                            loaded_images.push(el.src)
+                        } else {continue}
 
-                        el.maximized = false
                         el.onclick = e => {
-                            big_image.src = el.src
+                            if (!el.isVideo) {
+                                big_video.src = ""
+                                big_image.src = el.src
+                            }
+                            else {
+                                big_image.src = ""
+                                big_video.src = el.src
+                            }
                         }
 
                         container.appendChild(el)

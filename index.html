@@ -122,8 +122,9 @@
 
                     for (const item of manifest) {
                         let ext = item.split(".")[1].trim()
+                        let el
                         if (image_file_types.includes(ext)) {
-                            let el = document.createElement("img")
+                            el = document.createElement("img")
                             el.classList.add("image_display")
                             el.src = "/files" + item
                             el.alt = `No image: ${item}`
@@ -132,7 +133,7 @@
     
                             loaded_images.push(el.src)
                         } else if (video_file_types.includes(ext)) {
-                            let el = document.createElement("video")
+                            el = document.createElement("video")
                             el.classList.add("video_display")
                             el.src = "/files" + item
                             el.alt = `No video: ${item}`

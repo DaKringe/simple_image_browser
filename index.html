@@ -100,7 +100,7 @@
             }
 
             document.onkeydown = e => {
-                cursrc = big_image.src || big_video.src
+                cursrc = big_image.src == document.URL ? big_video.src : big_image.src
 
                 console.log(big_image.src, big_video.src)
 

@@ -75,7 +75,21 @@
             const container = document.getElementById("container")
 
             function updateImg(index) {
-                big_image.src = loaded_images[index.mod(loaded_images.length)]
+                loaded = loaded_images[index.mod(loaded_images.length)]
+                ext = loaded.split(".")[1]
+                isVideo = video_file_types.includes(ext)
+                isImage = image_file_types.includes(ext)
+                
+                if (isVideo) {
+                    big_video.src = ""
+                    big_image.src = el.src
+                } else if (isImage) {
+                    big_image.src = ""
+                    big_video.src = el.src
+                } else {
+                    console.log(loaded, " is neither video nor image ")
+                    return
+                }
             }
 
             document.onkeydown = e => {

@@ -90,8 +90,10 @@
                 if (isVideo) {
                     big_image.src = ""
                     big_video.src = loaded
+                    big_video.innerHTML = ""
                     source = document.createElement("source")
                     source.src = loaded
+                    source.style.pointerEvents = "all"
                     source.controls = true
                     big_video.appendChild(source)
                 } else if (isImage) {

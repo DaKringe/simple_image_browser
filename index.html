@@ -14,23 +14,27 @@
                     height: 5em;
                 }
                 #big_image {
-                    position: absolute;
+                    position: fixed;
+                    padding: 5em;
+                    max-width: 90vw;
+                    max-height: 90vh;
+                    width: 50%;
+                    height: 50%;
+                    object-fit: contain;
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
-                    height: 10em;
-                    width: auto;
                 }
             </style>
 </head>
     <body>
-        <img src="" alt="" id="big_image">
         <form action="#" method="post">
             <input type="text" name="username" id="username" placeholder="username" autocomplete="off">
             <input type="password" name="password" id="password" placeholder="password">
             <input type="submit" value="login">
         </form>
         <div id="container"></div>
+        <img src="" alt="" id="big_image">
         <script>
 
             Number.prototype.mod = function (n) {
@@ -45,6 +49,7 @@
             let loaded_images = []
 
             let big_image = document.getElementById("big_image")
+            const container = document.getElementById("container")
 
             function updateImg(index) {
                 big_image.src = loaded_images[index.mod(loaded_images.length)]
@@ -88,21 +93,17 @@
                 req.setRequestHeader("Content-Type", "application/json")
                 
                 req.onload = () => {
-                    console.log(req.response)
                     let success = req.response == "OK"
                     if (!success) return
 
+                    container.innerHTML = ""
+
                     getManifest((res)=>{window.manifest = res})
                     let manifest = window.manifest.split("\n")
-                    window.manifest = null
+                    // window.manifest = null
 
-                    const container = document.getElementById("container")
-                    for (const el of container.childNodes) {
-                        el.remove()
-                    }
                     for (const item of manifest) {
                         let ext = item.split(".")[1].trim()
-                        console.log(image_file_types.includes(ext), ext, image_file_types)
                         if (!image_file_types.includes(ext)) continue
                         let el = document.createElement("img")
                         el.classList.add("image_display")

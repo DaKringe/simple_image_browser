@@ -9,7 +9,7 @@ def write_all_file_paths(root_folder: str, output_file: str = "manifest.txt"):
             dirpath = dirpath.split(root_folder)[1]
             for filename in filenames:
                 ext = filename.split(".")[-1]
-                if ext not in image_file_types: continue
+                if ext not in image_file_types and ext not in video_file_types: continue
                 path = "/" + os.path.join(dirpath, filename)
                 f.write(path + "\n")
 

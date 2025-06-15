@@ -90,7 +90,10 @@
                 if (isVideo) {
                     big_image.src = ""
                     big_video.src = loaded
-                    big_video.appendChild(document.createElement("source").src = loaded)
+                    source = document.createElement("source")
+                    source.src = loaded
+                    source.controls = true
+                    big_video.appendChild(source)
                 } else if (isImage) {
                     big_video.src = ""
                     big_video.innerHTML = ""
@@ -180,14 +183,7 @@
                         } else {continue}
 
                         el.onclick = e => {
-                            if (!el.isVideo) {
-                                big_video.src = ""
-                                big_image.src = el.src
-                            }
-                            else {
-                                big_image.src = ""
-                                big_video.src = el.src
-                            }
+                            updateImg(loaded_images.indexOf(el.src))
                         }
 
                     }

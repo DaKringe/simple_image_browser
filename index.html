@@ -82,7 +82,8 @@
 
             function updateImg(index) {
                 loaded = loaded_images[index.mod(loaded_images.length)]
-                ext = loaded.split(".").pop().trim()
+                splt = loaded.split(".")
+                ext = splt[split.length - 1].trim()
                 isVideo = video_file_types.includes(ext)
                 isImage = image_file_types.includes(ext)
                 
@@ -93,7 +94,7 @@
                     big_image.src = ""
                     big_video.src = el.src
                 } else {
-                    console.log(loaded, ext, " is neither video nor image ")
+                    console.log(loaded, ext, splt, " is neither video nor image ")
                     return
                 }
             }

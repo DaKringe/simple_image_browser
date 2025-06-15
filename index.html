@@ -161,15 +161,20 @@
                             el.isVideo = false
     
                             loaded_images.push(el.src)
+                            container.appendChild(el)
                         } else if (video_file_types.includes(ext)) {
                             el = document.createElement("video")
                             el.classList.add("video_display")
+                            srel = document.createElement("source")
                             el.src = "/files" + item
-                            el.alt = `No video: ${item}`
+                            srel.src = el.src
+
+                            el.appendChild(srel)
 
                             el.isVideo = true
     
                             loaded_images.push(el.src)
+                            container.appendChild(el)
                         } else {continue}
 
                         el.onclick = e => {
@@ -183,7 +188,6 @@
                             }
                         }
 
-                        container.appendChild(el)
                     }
                 }
 

@@ -100,7 +100,7 @@
             }
 
             document.onkeydown = e => {
-                cursrc = big_image.src
+                cursrc = big_image.src || big_video.src
 
                 if (cursrc == document.URL) return
 
@@ -109,6 +109,7 @@
                 switch (e.key.toLowerCase()) {
                     case "escape":
                         big_image.src = ""
+                        big_video.src = ""
                         break
                     case "arrowleft":
                         curidx -= 1

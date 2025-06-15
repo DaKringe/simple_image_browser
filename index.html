@@ -90,8 +90,10 @@
                 if (isVideo) {
                     big_image.src = ""
                     big_video.src = loaded
+                    big_video.appendChild(document.createElement("source").src = loaded)
                 } else if (isImage) {
                     big_video.src = ""
+                    big_video.innerHTML = ""
                     big_image.src = loaded
                 } else {
                     console.log(loaded, ext, splt, " is neither video nor image ")

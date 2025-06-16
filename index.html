@@ -78,6 +78,19 @@
             display: none;
         }
 
+        #open_original {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 3em;
+            height: 3em;
+            border-radius: 30%;
+            margin: 1em;
+            background-color: rgb(109, 125, 219);
+            border: solid rgb(116, 114, 250) 2px;
+            display: none;
+        }
+
         #login_container {
             position: absolute;
             max-width: 90vw;
@@ -139,6 +152,7 @@
         <img src="" alt="" id="big_image">
         <video src="" id="big_video"></video>
         <input type="button" value="X" id="close_big">
+        <input type="button" value="i" id="open_original">
         <script>
 
             Number.prototype.mod = function (n) {
@@ -155,6 +169,7 @@
 
             const big_image = document.getElementById("big_image")
             const close_big = document.getElementById("close_big")
+            const open_original = document.getElementById("open_original")
             const container = document.getElementById("container")
             const login_container = document.getElementById("login_container")
 
@@ -189,6 +204,13 @@
                 big_image.src = ""
                 big_video.src = ""
                 close_big.style.display = "none"
+            }
+
+            open_original.onclick = e => {
+                cursrc = big_image.src == document.URL ? big_video.src : big_image.src
+                if (!cursrc) return
+
+                open(cursrc)
             }
 
             document.onkeydown = e => {

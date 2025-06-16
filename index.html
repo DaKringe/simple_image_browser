@@ -5,65 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-                #container {
-                    display: flexbox
-                }
-                .image_display {
-                    border: solid 1px;
-                    width: 5em;
-                    height: 5em;
-                    object-fit: cover;
-                }
-                .video_display {
-                    border: solid 1px lime;
-                    width: 5em;
-                    height: 5em;
-                }
-                #big_image {
-                    border: none;
-                    position: fixed;
-                    max-width: 90vw;
-                    max-height: 90vh;
-                    width: 50%;
-                    height: 50%;
-                    object-fit: contain;
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%, -50%);
-                    pointer-events: none;
-                }
-                #big_image:not([src]),
-                #big_image[src=""] {
-                    display: none;
-                }
+        body {
+            background-color: #232323;
+        }
+        #container {
+            display: flexbox
+        }
+        .image_display {
+            border: solid 1px;
+            width: 5em;
+            height: 5em;
+            object-fit: cover;
+        }
+        .video_display {
+            border: solid 1px lime;
+            width: 5em;
+            height: 5em;
+        }
+        #big_image {
+            border: none;
+            position: fixed;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: 50%;
+            height: 50%;
+            object-fit: contain;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        #big_image:not([src]),
+        #big_image[src=""] {
+            display: none;
+        }
 
-                #big_video {
-                    border: none;
-                    position: fixed;
-                    max-width: 90vw;
-                    max-height: 90vh;
-                    width: 50%;
-                    height: 50%;
-                    object-fit: contain;
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%, -50%);
-                }
-                #big_video:not([src]),
-                #big_video[src=""] {
-                    display: none;
-                }
-            </style>
+        #big_video {
+            border: none;
+            position: fixed;
+            max-width: 90vw;
+            max-height: 90vh;
+            width: 50%;
+            height: 50%;
+            object-fit: contain;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        #big_video:not([src]),
+        #big_video[src=""] {
+            display: none;
+        }
+
+        #close_big {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 3em;
+            height: 3em;
+            border-radius: 30%;
+            margin: 1em;
+            background-color: rgb(255, 26, 26);
+            border: solid salmon 2px;
+            display: none;
+        }
+
+        #login_container {
+            position: absolute;
+            width: 25em;
+            height: 15em;
+            border: solid white 2px;
+            border-radius: 2em;
+            font-family: 'Lucida Sans';
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #121212;
+        }
+
+        #login_container h1 {
+            display: flex;
+            height: 30%;
+            width: 100%;
+            margin: 0;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: aquamarine;
+        }
+
+        #login {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* border: solid lime 2px; */
+            height: 70%;
+        }
+        
+        
+        #login form {
+            text-align: center;
+            font-family: 'Lucida Sans';
+        }
+
+        #login input {
+            font-size: 1.2em;
+            height: 2em;
+            text-align: center;
+        }
+    </style>
 </head>
     <body>
-        <form action="#" method="post">
-            <input type="text" name="username" id="username" placeholder="username" autocomplete="off">
-            <input type="password" name="password" id="password" placeholder="password">
-            <input type="submit" value="login">
-        </form>
+        <div id="login_container">
+            <h1>Login</h1>
+            <div id="login">
+                <form action="#" method="post">
+                    <input type="text" name="username" id="username" placeholder="username" autocomplete="off"><br>
+                    <input type="password" name="password" id="password" placeholder="password"><br>
+                    <input type="submit" value="login">
+                </form>
+            </div>
+        </div>
         <div id="container"></div>
         <img src="" alt="" id="big_image">
         <video src="" id="big_video"></video>
+        <input type="button" value="X" id="close_big">
         <script>
 
             Number.prototype.mod = function (n) {
@@ -78,8 +144,10 @@
 
             let loaded_images = []
 
-            let big_image = document.getElementById("big_image")
+            const big_image = document.getElementById("big_image")
+            const close_big = document.getElementById("close_big")
             const container = document.getElementById("container")
+            const login_container = document.getElementById("login_container")
 
             function updateImg(index) {
                 loaded = loaded_images[index.mod(loaded_images.length)]
@@ -93,6 +161,7 @@
                     big_video.src = loaded
                     big_video.innerHTML = ""
                     big_video.controls = true
+                    close_big.style.display = "inline"
                     // source = document.createElement("source")
                     // source.src = loaded
                     // big_video.appendChild(source)
@@ -100,10 +169,17 @@
                     big_video.src = ""
                     big_video.innerHTML = ""
                     big_image.src = loaded
+                    close_big.style.display = "inline"
                 } else {
                     console.log(loaded, ext, splt, " is neither video nor image ")
                     return
                 }
+            }
+
+            close_big.onclick = e => {
+                big_image.src = ""
+                big_video.src = ""
+                close_big.style.display = "none"
             }
 
             document.onkeydown = e => {
@@ -155,6 +231,8 @@
                     getManifest((res)=>{window.manifest = res})
                     let manifest = window.manifest.split("\n")
                     // window.manifest = null
+
+                    login_container.style.display = "none"
 
                     for (const item of manifest) {
                         let ext = item.split(".")[1].trim()

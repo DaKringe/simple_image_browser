@@ -80,7 +80,7 @@
 
         #open_original {
             position: fixed;
-            top: 0;
+            top: 1em;
             right: 0;
             width: 3em;
             height: 3em;
@@ -186,6 +186,7 @@
                     big_video.innerHTML = ""
                     big_video.controls = true
                     close_big.style.display = "inline"
+                    open_original.style.display = "inline"
                     // source = document.createElement("source")
                     // source.src = loaded
                     // big_video.appendChild(source)
@@ -194,6 +195,7 @@
                     big_video.innerHTML = ""
                     big_image.src = loaded
                     close_big.style.display = "inline"
+                    open_original.style.display = "inline"
                 } else {
                     console.log(loaded, ext, splt, " is neither video nor image ")
                     return
@@ -204,6 +206,7 @@
                 big_image.src = ""
                 big_video.src = ""
                 close_big.style.display = "none"
+                open_original.style.display = "none"
             }
 
             open_original.onclick = e => {
